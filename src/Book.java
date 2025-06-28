@@ -36,5 +36,4 @@ public class Book {
     public int getCode() {
         return code;
     }
-
 }

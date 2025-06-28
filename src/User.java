@@ -50,6 +50,7 @@ public class User {
         return gender;
     }
 
-
-    // TODO: WRITE getter for code field
+    public int getCode(){
+        return code;
+    }
 }
