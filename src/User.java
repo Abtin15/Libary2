@@ -53,4 +53,32 @@ public class User {
     public int getCode(){
         return code;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", name='" + name + '\'' +
+                ", family='" + family + '\'' +
+                ", age=" + age +
+                ", address='" + address + '\'' +
+                ", gender='" + gender + '\'' +
+                ", code=" + code +
+                '}';
+    }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true; // Same reference
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        User other = (User) obj;
+
+        return age == other.age &&
+                code == other.code &&
+                username.equals(other.username) &&
+                name.equals(other.name) &&
+                family.equals(other.family);
+    }
 }
+
+

@@ -15,4 +15,11 @@ public class Admin {
     public String getPassword() {
         return password;
     }
+    @Override
+    public String toString() {
+        return "Admin{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }
