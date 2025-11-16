@@ -22,43 +22,108 @@ public class UserMenu {
             case 2 -> listOfAllMyBooks();
             case 3 -> checkOutABook();
             case 4 -> returnABook();
-            case 5 -> Main.showMenu();
+            default -> Main.showMenu();
         }
     }
 
     public static void listOfAllBooks() {
         System.out.println(" * * * LIST OF ALL BOOKS * * * ");
 
-        System.out.println("Here is list of all the books");
+        if (BookRepo.allBooks.isEmpty()) {
+            System.out.println("There are no books in the library.");
+        } else {
+            for (int i = 0; i < BookRepo.allBooks.size(); i++) {
+                Book book = BookRepo.allBooks.get(i);
+                System.out.println((i + 1) + ". " + book.getName() + " by " + book.getAuthor() + " - $" + book.getPrice());
+            }
+
+            System.out.println("----------------------------------------");
+            userMenu();
+        }
     }
 
     public static void listOfAllMyBooks() {
         System.out.println(" * * * LIST OF ALL MY BOOKS * * * ");
 
-        System.out.println("Here is list of all your books");
+        if (BookRepo.allBooks.isEmpty()) {
+            System.out.println("You haven't borrowed any books yet.");
+        } else {
+            for (int i = 0; i < BookRepo.allBooks.size(); i++) {
+                Book book = BookRepo.allBooks.get(i);
+                System.out.println((i + 1) + ". " + book.getName() + " by " + book.getAuthor());
+            }
+        }
+
+        System.out.println("----------------------------------------");
+        userMenu();
     }
 
     public static void checkOutABook() {
         System.out.println(" * * * CHECK OUT A BOOK * * * ");
 
-        System.out.println("Checking out a book");
+        if (BookRepo.allBooks.isEmpty()) {
+            System.out.println("No books are available to check out.");
+            System.out.println("----------------------------------------");
+            userMenu();
+            return;
+        }
+
+        for (int i = 0; i < BookRepo.allBooks.size(); i++) {
+            System.out.println((i + 1) + ". " + BookRepo.allBooks.get(i).getName());
+        }
+
+        System.out.print("Enter the number of the book you want to borrow: ");
+        int choice = scanner.nextInt() - 1;
+
+        if (choice < 0 || choice >= BookRepo.allBooks.size()) {
+            System.out.println("Invalid choice.");
+        } else {
+            Book selectedBook = BookRepo.allBooks.get(choice);
+            BookRepo.allBooks.add(selectedBook);
+            System.out.println("You borrowed: " + selectedBook.getName());
+        }
+
+        System.out.println("----------------------------------------");
+        userMenu();
     }
 
     public static void returnABook() {
         System.out.print(" * * * RETURN A BOOK * * * ");
 
-        System.out.println("Returning book");
+        if (BookRepo.allBooks.isEmpty()) {
+            System.out.println("You don’t have any books to return.");
+            System.out.println("----------------------------------------");
+            userMenu();
+            return;
+        }
+
+        for (int i = 0; i < BookRepo.allBooks.size(); i++) {
+            System.out.println((i + 1) + ". " + BookRepo.allBooks.get(i).getName());
+        }
+
+        System.out.print("Enter the number of the book to return: ");
+        int choice = scanner.nextInt() - 1;
+
+        if (choice < 0 || choice >= BookRepo.allBooks.size()) {
+            System.out.println("Invalid choice.");
+        } else {
+            Book returnedBook = BookRepo.allBooks.remove(choice);
+            System.out.println("You returned: " + returnedBook.getName());
+        }
+
+        System.out.println("----------------------------------------");
+        userMenu();
     }
 
     public static void userListBooks() {
         System.out.println(" * * * USER LIST BOOKS * * * ");
-        if (Main.allBooks.isEmpty()) {
+        if (BookRepo.allBooks.isEmpty()) {
             System.out.println("List is empty");
             System.out.println("----------------------------------------");
-            Main.userManagement();
+            userMenu();
         }
-        for (int i = 0; i < Main.allBooks.size(); i++) {
-            Main.printBook(i);
+        for (int i = 0; i < BookRepo.allBooks.size(); i++) {
+            BookRepo.printBook(i);
         }
     }
 
@@ -75,61 +140,61 @@ public class UserMenu {
         double price = scanner.nextDouble();
 
         Book newBook = new Book(name, author, price);
-        Main.allBooks.add(newBook);
+        BookRepo.allBooks.add(newBook);
         System.out.println("Book successfully added");
         System.out.println("----------------------------------------");
-        Main.userManagement();
+        userMenu();
     }
 
     public static void userUpdateBook() {
         System.out.println(" * * * UPDATE * * * ");
-        if (Main.allBooks.isEmpty()) {
+        if (BookRepo.allBooks.isEmpty()) {
             System.out.println("List is empty ");
             System.out.println("----------------------------------------");
-            Main.userManagement();
+            userMenu();
         }
         scanner.nextLine();
         System.out.print("Enter Name of the book : ");
         String name = scanner.nextLine();
 
-        int index = Main.findBook(name);
+        int index = BookRepo.findBook(name);
         if (index == -1) {
             System.out.println("Book not found ");
         }
         System.out.println("----------------------------------------");
-        Book book = Main.allBooks.get(index);
+        Book book = BookRepo.allBooks.get(index);
         scanner.nextLine();
         System.out.print("Enter New Book name : ");
-        book.name = scanner.nextLine();
+        book.setName(scanner.nextLine());
 
         System.out.print("Enter New Author name : ");
-        book.authorName = scanner.nextLine();
+        book.setAuthor(scanner.nextLine());
 
         System.out.print("Enter New Price : ");
-        book.price = scanner.nextDouble();
+        book.setPrice(scanner.nextDouble());
 
         System.out.println("Book successfully updated ");
         System.out.println("----------------------------------------");
-        Main.userManagement();
+        userMenu();
     }
 
     public static void userDeleteBook() {
         System.out.println(" * * * DELETE * * * ");
-        if (Main.allBooks.isEmpty()) {
+        if (BookRepo.allBooks.isEmpty()) {
             System.out.println("List is empty");
             System.out.println("----------------------------------------");
-            Main.userManagement();
+            userMenu();
         }
         scanner.nextLine();
         System.out.print("Enter name : ");
         String name = scanner.nextLine();
-        int index = Main.findBook(name);
+        int index = BookRepo.findBook(name);
         if (index == -1) {
             System.out.println("Name not found");
         } else {
             System.out.println("Book successfully removed");
             System.out.println("----------------------------------------");
-            Main.userManagement();
+            userMenu();
         }
     }
 }

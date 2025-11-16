@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 public class AdminMenu {
+
     static Scanner scanner = new Scanner(System.in);
     static Admin admin = new Admin("admin", "1234");
 
@@ -22,10 +23,8 @@ public class AdminMenu {
         }
     }
 
-
     public static void loginAdminMenu() {
         System.out.println(" * * * ADMIN MENU * * * ");
-        scanner.nextLine();
         System.out.print("Enter username : ");
         String username = scanner.nextLine();
         System.out.print("Enter password : ");
@@ -47,26 +46,29 @@ public class AdminMenu {
             System.out.println("2. Update a book ");
             System.out.println("3. Delete a book ");
             System.out.println("4. List books ");
+            System.out.println("5. Back ");
             System.out.print("Please select an option : ");
             option = scanner.nextInt();
-        } while (option > 4 || option < 1);
+        } while (option > 5 || option < 1);
         switch (option) {
             case 1 -> addBook();
             case 2 -> updateBook();
             case 3 -> deleteBook();
             case 4 -> listBooks();
+            case 5 -> showAdminMenu();
         }
     }
 
     public static void listBooks() {
         System.out.println(" * * * LIST BOOKS * * * ");
-        if (Main.allBooks.isEmpty()) {
+        if (BookRepo.allBooks.isEmpty()) {
             System.out.println("List is empty");
             System.out.println("----------------------------------------");
             bookManagement();
         }
-        for (int i = 0; i < Main.allBooks.size(); i++) {
-            Main.printBook(i);
+        for (int i = 0; i < BookRepo.allBooks.size(); i++) {
+            BookRepo.printBook(i);
+            bookManagement();
         }
     }
 
@@ -83,7 +85,7 @@ public class AdminMenu {
         double price = scanner.nextDouble();
 
         Book newBook = new Book(name, author, price);
-        Main.allBooks.add(newBook);
+        BookRepo.allBooks.add(newBook);
         System.out.println("Book successfully added ");
         System.out.println("----------------------------------------");
         bookManagement();
@@ -91,7 +93,7 @@ public class AdminMenu {
 
     public static void updateBook() {
         System.out.println(" * * * UPDATE * * * ");
-        if (Main.allBooks.isEmpty()) {
+        if (BookRepo.allBooks.isEmpty()) {
             System.out.println("List is empty ");
             System.out.println("----------------------------------------");
             bookManagement();
@@ -100,27 +102,20 @@ public class AdminMenu {
         System.out.print("Enter Name of the book : ");
         String name = scanner.nextLine();
 
-        System.out.print("Enter Name of the author : ");
-        String author = scanner.nextLine();
-
-        System.out.print("Enter Price of the book : ");
-        double price = scanner.nextDouble();
-
-        int index = Main.findBook(name);
+        int index = BookRepo.findBook(name);
         if (index == -1) {
             System.out.println("Book not found ");
         }
         System.out.println("----------------------------------------");
-        Book book = Main.allBooks.get(index);
-        scanner.nextLine();
+        Book book = BookRepo.allBooks.get(index);
         System.out.print("Enter New Book name : ");
-        book.name = scanner.nextLine();
+        book.setName(scanner.nextLine());
 
         System.out.print("Enter New Author name : ");
-        book.authorName = scanner.nextLine();
+        book.setAuthor(scanner.nextLine());
 
         System.out.print("Enter New Price : ");
-        book.price = scanner.nextDouble();
+        book.setPrice(scanner.nextDouble());
 
         System.out.println("Book successfully updated ");
         System.out.println("----------------------------------------");
@@ -129,7 +124,7 @@ public class AdminMenu {
 
     public static void deleteBook() {
         System.out.println(" * * * DELETE * * * ");
-        if (Main.allBooks.isEmpty()) {
+        if (BookRepo.allBooks.isEmpty()) {
             System.out.println("List is empty ");
             System.out.println("----------------------------------------");
             bookManagement();
@@ -137,13 +132,15 @@ public class AdminMenu {
         scanner.nextLine();
         System.out.print("Enter Name : ");
         String name = scanner.nextLine();
-        int index = Main.findBook(name);
+        int index = BookRepo.findBook(name);
         if (index == -1) {
             System.out.println("Name not found");
         } else {
+            BookRepo.allBooks.remove(index);
             System.out.println("Book successfully removed");
             System.out.println("----------------------------------------");
             bookManagement();
         }
     }
 }
+

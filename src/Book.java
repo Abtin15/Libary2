@@ -1,9 +1,8 @@
 public class Book {
 
     private static int baseCode = 145;
-    public String name;
-    public String authorName;
-    public double price;
+    private String name;
+    private double price;
 
     private BookStatus status;
     private String title;
@@ -34,6 +33,26 @@ public class Book {
         return title;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
     public int getPublishYear() {
         return publishYear;
     }
@@ -45,11 +64,11 @@ public class Book {
     public int getCode() {
         return code;
     }
+
     @Override
     public String toString() {
         return "Book{" +
                 "name='" + name + '\'' +
-                ", authorName='" + authorName + '\'' +
                 ", price=" + price +
                 ", status=" + status +
                 ", title='" + title + '\'' +
@@ -58,10 +77,15 @@ public class Book {
                 ", code=" + code +
                 '}';
     }
+
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
 
         Book other = (Book) obj;
 
@@ -69,6 +93,7 @@ public class Book {
                 publishYear == other.publishYear &&
                 (title != null && title.equals(other.title));
     }
+
     @Override
     public int hashCode() {
         int result = code;
@@ -76,7 +101,5 @@ public class Book {
         result = 31 * result + (title != null ? title.hashCode() : 0);
         return result;
     }
-
 }
-
 
