@@ -29,12 +29,13 @@ public class UserMenu {
     public static void listOfAllBooks() {
         System.out.println(" * * * LIST OF ALL BOOKS * * * ");
 
-        if (BookRepo.allBooks.isEmpty()) {
+        if (BookRepo.isEmpty()) {
             System.out.println("There are no books in the library.");
         } else {
-            for (int i = 0; i < BookRepo.allBooks.size(); i++) {
-                Book book = BookRepo.allBooks.get(i);
-                System.out.println((i + 1) + ". " + book.getName() + " by " + book.getAuthor() + " - $" + book.getPrice());
+            for (int i = 0; i < BookRepo.size(); i++) {
+                Book book = BookRepo.get(i);
+                System.out.println(
+                        (i + 1) + ". " + book.getName() + " by " + book.getAuthor() + " - $" + book.getPrice());
             }
 
             System.out.println("----------------------------------------");
@@ -45,11 +46,11 @@ public class UserMenu {
     public static void listOfAllMyBooks() {
         System.out.println(" * * * LIST OF ALL MY BOOKS * * * ");
 
-        if (BookRepo.allBooks.isEmpty()) {
+        if (BookRepo.isEmpty()) {
             System.out.println("You haven't borrowed any books yet.");
         } else {
-            for (int i = 0; i < BookRepo.allBooks.size(); i++) {
-                Book book = BookRepo.allBooks.get(i);
+            for (int i = 0; i < BookRepo.size(); i++) {
+                Book book = BookRepo.get(i);
                 System.out.println((i + 1) + ". " + book.getName() + " by " + book.getAuthor());
             }
         }
@@ -61,25 +62,25 @@ public class UserMenu {
     public static void checkOutABook() {
         System.out.println(" * * * CHECK OUT A BOOK * * * ");
 
-        if (BookRepo.allBooks.isEmpty()) {
+        if (BookRepo.isEmpty()) {
             System.out.println("No books are available to check out.");
             System.out.println("----------------------------------------");
             userMenu();
             return;
         }
 
-        for (int i = 0; i < BookRepo.allBooks.size(); i++) {
-            System.out.println((i + 1) + ". " + BookRepo.allBooks.get(i).getName());
+        for (int i = 0; i < BookRepo.size(); i++) {
+            System.out.println((i + 1) + ". " + BookRepo.get(i).getName());
         }
 
         System.out.print("Enter the number of the book you want to borrow: ");
         int choice = scanner.nextInt() - 1;
 
-        if (choice < 0 || choice >= BookRepo.allBooks.size()) {
+        if (choice < 0 || choice >= BookRepo.size()) {
             System.out.println("Invalid choice.");
         } else {
-            Book selectedBook = BookRepo.allBooks.get(choice);
-            BookRepo.allBooks.add(selectedBook);
+            Book selectedBook = BookRepo.get(choice);
+            BookRepo.add(selectedBook);
             System.out.println("You borrowed: " + selectedBook.getName());
         }
 
@@ -90,24 +91,24 @@ public class UserMenu {
     public static void returnABook() {
         System.out.print(" * * * RETURN A BOOK * * * ");
 
-        if (BookRepo.allBooks.isEmpty()) {
+        if (BookRepo.isEmpty()) {
             System.out.println("You don’t have any books to return.");
             System.out.println("----------------------------------------");
             userMenu();
             return;
         }
 
-        for (int i = 0; i < BookRepo.allBooks.size(); i++) {
-            System.out.println((i + 1) + ". " + BookRepo.allBooks.get(i).getName());
+        for (int i = 0; i < BookRepo.size(); i++) {
+            System.out.println((i + 1) + ". " + BookRepo.get(i).getName());
         }
 
         System.out.print("Enter the number of the book to return: ");
         int choice = scanner.nextInt() - 1;
 
-        if (choice < 0 || choice >= BookRepo.allBooks.size()) {
+        if (choice < 0 || choice >= BookRepo.size()) {
             System.out.println("Invalid choice.");
         } else {
-            Book returnedBook = BookRepo.allBooks.remove(choice);
+            Book returnedBook = BookRepo.remove(choice);
             System.out.println("You returned: " + returnedBook.getName());
         }
 
@@ -117,12 +118,12 @@ public class UserMenu {
 
     public static void userListBooks() {
         System.out.println(" * * * USER LIST BOOKS * * * ");
-        if (BookRepo.allBooks.isEmpty()) {
+        if (BookRepo.isEmpty()) {
             System.out.println("List is empty");
             System.out.println("----------------------------------------");
             userMenu();
         }
-        for (int i = 0; i < BookRepo.allBooks.size(); i++) {
+        for (int i = 0; i < BookRepo.size(); i++) {
             BookRepo.printBook(i);
         }
     }
@@ -140,7 +141,7 @@ public class UserMenu {
         double price = scanner.nextDouble();
 
         Book newBook = new Book(name, author, price);
-        BookRepo.allBooks.add(newBook);
+        BookRepo.add(newBook);
         System.out.println("Book successfully added");
         System.out.println("----------------------------------------");
         userMenu();
@@ -148,7 +149,7 @@ public class UserMenu {
 
     public static void userUpdateBook() {
         System.out.println(" * * * UPDATE * * * ");
-        if (BookRepo.allBooks.isEmpty()) {
+        if (BookRepo.isEmpty()) {
             System.out.println("List is empty ");
             System.out.println("----------------------------------------");
             userMenu();
@@ -157,12 +158,12 @@ public class UserMenu {
         System.out.print("Enter Name of the book : ");
         String name = scanner.nextLine();
 
-        int index = BookRepo.findBook(name);
+        int index = BookRepo.find(name);
         if (index == -1) {
             System.out.println("Book not found ");
         }
         System.out.println("----------------------------------------");
-        Book book = BookRepo.allBooks.get(index);
+        Book book = BookRepo.get(index);
         scanner.nextLine();
         System.out.print("Enter New Book name : ");
         book.setName(scanner.nextLine());
@@ -180,7 +181,7 @@ public class UserMenu {
 
     public static void userDeleteBook() {
         System.out.println(" * * * DELETE * * * ");
-        if (BookRepo.allBooks.isEmpty()) {
+        if (BookRepo.isEmpty()) {
             System.out.println("List is empty");
             System.out.println("----------------------------------------");
             userMenu();
@@ -188,7 +189,7 @@ public class UserMenu {
         scanner.nextLine();
         System.out.print("Enter name : ");
         String name = scanner.nextLine();
-        int index = BookRepo.findBook(name);
+        int index = BookRepo.find(name);
         if (index == -1) {
             System.out.println("Name not found");
         } else {

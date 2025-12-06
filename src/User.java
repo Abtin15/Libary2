@@ -1,9 +1,7 @@
-public class User {
+public class User extends SecurityUser {
 
     private static int baseCode = 234;
 
-    private String username;
-    private String password;
     private String name;
     private String family;
     private int age;
@@ -12,8 +10,7 @@ public class User {
     private int code;
 
     public User(String username, String password, String name, String family, int age, String address, String gender) {
-        this.username = username;
-        this.password = password;
+        super(username, password);
         this.name = name;
         this.family = family;
         this.age = age;
@@ -22,13 +19,14 @@ public class User {
         this.code = baseCode++;
     }
 
-    public String getUsername() {
-        return username;
+    public User(String username, String password, String name, String family, int age) {
+        super(username, password);
+        this.name = name;
+        this.family = family;
+        this.age = age;
+        this.code = baseCode++;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
     public String getName() {
         return name;
@@ -50,8 +48,20 @@ public class User {
         return gender;
     }
 
-    public int getCode(){
+    public int getCode() {
         return code;
+    }
+
+    public void setFamily(String family) {
+        this.family = family;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     @Override
@@ -66,10 +76,15 @@ public class User {
                 ", code=" + code +
                 '}';
     }
+
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true; // Same reference
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
 
         User other = (User) obj;
 
@@ -80,6 +95,3 @@ public class User {
                 family.equals(other.family);
     }
 }
-
-
-
