@@ -40,4 +40,8 @@ public class UserRepo {
     public static int size() {
         return users.size();
     }
+
+    public static boolean existingByUserName(String name) {
+        return find(name) != -1;
+    }
 }

@@ -201,9 +201,14 @@ public class AdminMenu {
         System.out.print("Enter password of user : ");
         String password = scanner.nextLine();
 
-        User newUser = new User(username, password, name, family, age);
-        UserRepo.add(newUser);
-        System.out.println("User successfully added ");
+        if (UserRepo.existingByUserName(username)) {
+            System.out.println("Another user exists by this username");
+        } else {
+            User newUser = new User(username, password, name, family, age);
+            UserRepo.add(newUser);
+            System.out.println("User successfully added ");
+        }
+
         System.out.println("----------------------------------------");
         userManagement();
     }
