@@ -20,7 +20,7 @@ public class Main {
         } while (option > 3 || option < 1);
         switch (option) {
             case 1 -> AdminMenu.loginAdminMenu();
-            case 2 -> UserMenu.userMenu();
+            case 2 -> UserMenu.loginUserMenu();
             case 3 -> System.exit(0);
         }
     }

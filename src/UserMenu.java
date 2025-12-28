@@ -6,7 +6,6 @@ public class UserMenu {
 
     public static void userMenu() {
         System.out.println(" * * * USER MENU * * * ");
-        scanner.nextLine();
         int option;
         do {
             System.out.println("1. List of all books : ");
@@ -23,6 +22,31 @@ public class UserMenu {
             case 3 -> checkOutABook();
             case 4 -> returnABook();
             default -> Main.showMenu();
+        }
+    }
+
+    public static void loginUserMenu() {
+        System.out.println(" * * * USER MENU * * * ");
+
+        System.out.print("Enter username : ");
+        String username = scanner.nextLine();
+
+        System.out.print("Enter password : ");
+        String password = scanner.nextLine();
+
+        User user = UserRepo.findByUsername(username);
+
+        if (user == null) {
+            System.out.println("User not found");
+            Main.showMenu();
+        }
+
+        if (password.equals(user.getPassword())) {
+            System.out.println("Login Successful");
+            userMenu();
+        } else {
+            System.out.println("Invalid username or password");
+            Main.showMenu();
         }
     }
 

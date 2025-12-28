@@ -44,4 +44,14 @@ public class UserRepo {
     public static boolean existingByUserName(String name) {
         return find(name) != -1;
     }
+
+    public static User findByUsername(String username) {
+        for (int i = 0; i < users.size(); i++) {
+            if (username.equals(users.get(i).getUsername())) {
+                return users.get(i);
+            }
+        }
+        return null;
+    }
+
 }
