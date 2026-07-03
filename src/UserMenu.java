@@ -63,8 +63,8 @@ public class UserMenu {
             }
 
             System.out.println("----------------------------------------");
-            userMenu();
         }
+        userMenu();
     }
 
     public static void listOfAllMyBooks() {
@@ -113,7 +113,7 @@ public class UserMenu {
     }
 
     public static void returnABook() {
-        System.out.print(" * * * RETURN A BOOK * * * ");
+        System.out.println(" * * * RETURN A BOOK * * * ");
 
         if (BookRepo.isEmpty()) {
             System.out.println("You don’t have any books to return.");
